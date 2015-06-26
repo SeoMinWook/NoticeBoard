@@ -7,18 +7,18 @@
 <title>공지사항 목록</title>
 </head>
 <body>
-	<div>
-		<form id="search" action ="/notice/list.do" method="get">
-			<select name="searchCnd" style="border: 1px solid #bababa; height: 22px; line-height: 20px">
-				<option>제목</option>
-				<option>작성자</option>
-				<option>제목+작성자</option>
+	<div align="center" style="width: 50%;">
+		<form id="search" action ="<%=request.getContextPath() %>/notice/List.do" method="get">
+			<select name="searchNum">
+				<option value="1" >제목</option>
+				<option value="2" >작성자</option>
+				<option value="3" >제목+작성자</option>
 			</select>
-			<input name="searchKeyword" type="text" value='<c:out value="${}"/>' maxlength="35" >
+			<input name="searchKey" type="text" id="searchKey" value="${searchResult.searchKey}" >
 			<input type="submit" value="검색">
 		</form>
 	</div>
-
+	<div>
 		<table  width="50%" cellspacing="0" >
 			<thead>
 				<tr>

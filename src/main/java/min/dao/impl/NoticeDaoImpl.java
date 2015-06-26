@@ -1,4 +1,4 @@
-package min.dao;
+package min.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,26 +8,59 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import min.dao.NoticeDao;
 import min.domain.Notice;
+import min.domain.NoticeSearchDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class NoticeServiceDao {
+public class NoticeDaoImpl implements NoticeDao {
 
 	@Autowired
 	private DataSource ds;
 
-	private String sql;
-
 	//공지사항 목록 보여주기
-	public List<Notice> noticeBoardList() throws Exception {
+	/* (non-Javadoc)
+	 * @see min.dao.INoticeDao#noticeBoardList(min.domain.NoticeSearchDto)
+	 */
+	public List<Notice> noticeBoardList(NoticeSearchDto searchDto) throws Exception {
 
-		sql = "select board_num, name, title, content from notice WHERE view='Y' ORDER BY board_num DESC";
+		StringBuffer sqlTo = new StringBuffer();
+
+		sqlTo.append("SELECT board_num, name, title, content FROM notice WHERE view='Y' ");
+
+		switch (searchDto.getSearchNum()) {
+		case 1:
+			sqlTo.append(" AND title LIKE ? ");
+			break;
+		case 2:
+			sqlTo.append(" AND name LIKE ? ");
+			break;
+		case 3:
+			sqlTo.append(" AND ( title LIKE ? OR name LIKE ? ) ");
+			break;
+		default:
+			break;
+		}
+
+		sqlTo.append("ORDER BY board_num");
 
 		Connection connection = this.ds.getConnection();
-		PreparedStatement pstmt = connection.prepareStatement(sql);
+		PreparedStatement pstmt = connection.prepareStatement(sqlTo.toString());
+
+		if(searchDto.getSearchNum() == 1 || searchDto.getSearchNum() == 2 ){
+
+			pstmt.setString(1, "%"+searchDto.getSearchKey()+"%");
+
+		}else if(searchDto.getSearchNum() == 3){
+
+			pstmt.setString(1, "%"+searchDto.getSearchKey()+"%");
+			pstmt.setString(2, "%"+searchDto.getSearchKey()+"%");
+
+		}
+
 		ResultSet rs = pstmt.executeQuery();
 
 		List<Notice> results = new ArrayList<Notice>();
@@ -45,9 +78,12 @@ public class NoticeServiceDao {
 	}
 
 	//공지사항 작성하기
+	/* (non-Javadoc)
+	 * @see min.dao.INoticeDao#noticeNewInsert(min.domain.Notice)
+	 */
 	public void noticeNewInsert(Notice noticeDto) throws Exception {
 
-		sql = "INSERT INTO notice(name, title, content, view) VALUES (?, ?, ?, 'Y')";
+		String sql = "INSERT INTO notice(name, title, content, view) VALUES (?, ?, ?, 'Y')";
 
 		Connection connection = this.ds.getConnection();
 		PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -61,9 +97,12 @@ public class NoticeServiceDao {
 	}
 
 	//공지사항 상세화면 & 수정화면 보여주기
+	/* (non-Javadoc)
+	 * @see min.dao.INoticeDao#noticeDetailView(min.domain.Notice)
+	 */
 	public Notice noticeDetailView(Notice noticeDto) throws Exception {
 
-		sql = "SELECT * FROM notice WHERE board_num = ?";
+		String sql = "SELECT * FROM notice WHERE board_num = ?";
 
 		Connection connection = this.ds.getConnection();
 		PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -84,9 +123,12 @@ public class NoticeServiceDao {
 	}
 
 	//공지사항 수정하기
+	/* (non-Javadoc)
+	 * @see min.dao.INoticeDao#noticeContentEdit(min.domain.Notice)
+	 */
 	public void noticeContentEdit(Notice noticeDto) throws Exception {
 
-		sql = "UPDATE notice SET name = ? , title = ? , content = ? WHERE board_num = ? ";
+		String sql = "UPDATE notice SET name = ? , title = ? , content = ? WHERE board_num = ? ";
 
 		Connection connection = this.ds.getConnection();
 		PreparedStatement pstmt = connection.prepareStatement(sql);
@@ -100,9 +142,12 @@ public class NoticeServiceDao {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see min.dao.INoticeDao#noticeContentDelete(min.domain.Notice)
+	 */
 	public void noticeContentDelete(Notice noticeDto) throws Exception {
 
-		sql = "UPDATE notice SET view = 'N' WHERE board_num = ? ";
+		String sql = "UPDATE notice SET view = 'N' WHERE board_num = ? ";
 
 		Connection connection = this.ds.getConnection();
 		PreparedStatement pstmt = connection.prepareStatement(sql);

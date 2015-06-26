@@ -3,11 +3,12 @@ package min.service;
 import java.util.List;
 
 import min.domain.Notice;
+import min.domain.NoticeSearchDto;
 
 public interface NoticeService {
 
 	//noticeList View
-	public List<Notice> noticeListView() throws Exception;
+	public List<Notice> noticeListView(NoticeSearchDto searchDto) throws Exception;
 
 	//noticeNewInsertForm
 	public void noticeNewInsertForm(Notice noticeDto) throws Exception;

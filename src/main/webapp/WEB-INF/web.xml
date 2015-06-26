@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
 
-
-	<!-- application listener start -->
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
- 	</listener>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			/WEB-INF/springDatabase.xml
-			/WEB-INF/springDispatcher-servlet.xml
+			/WEB-INF/spring-database.xml
 		</param-value>
-	</context-param>    
+	</context-param>
+
+	<!-- application listener start -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+ 	</listener>
 	<!-- application listener end -->
-    
-    
+
+
 	<!-- spring dispatcher start -->
 	<servlet>
-		<servlet-name>springDispatcher</servlet-name>
+		<servlet-name>spring</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 	</servlet>
- 
+
 	<servlet-mapping>
-		<servlet-name>springDispatcher</servlet-name>
+		<servlet-name>spring</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<!-- spring dispatcher end -->
@@ -31,6 +30,6 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-    
-    
+
+
 </web-app>

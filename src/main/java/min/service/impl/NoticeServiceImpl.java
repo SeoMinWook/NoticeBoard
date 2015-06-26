@@ -2,8 +2,9 @@ package min.service.impl;
 
 import java.util.List;
 
-import min.dao.NoticeServiceDao;
+import min.dao.NoticeDao;
 import min.domain.Notice;
+import min.domain.NoticeSearchDto;
 import min.service.NoticeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,12 @@ import org.springframework.stereotype.Service;
 public class NoticeServiceImpl implements NoticeService {
 
 	@Autowired
-	private NoticeServiceDao noticeDao;
+	private NoticeDao noticeDao;
 
 
 	//noticeList View
-	public List<Notice> noticeListView() throws Exception {
-		return noticeDao.noticeBoardList();
+	public List<Notice> noticeListView(NoticeSearchDto searchDto) throws Exception {
+		return noticeDao.noticeBoardList(searchDto);
 	}
 
 	//noticeNewInsertForm

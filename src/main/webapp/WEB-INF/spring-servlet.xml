@@ -9,22 +9,17 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
 
-	<!-- annotation config & scan start -->
-	<context:annotation-config />
-		<context:component-scan base-package="min.controller">
-			<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
-		</context:component-scan>
-	<!-- annotation config & scan end -->
+	<mvc:annotation-driven />
 
-
-	<bean id="noticeBoardService" class="min.service.impl.NoticeServiceImpl" />
-	<bean id="NoticeServiceDao" class="min.service.impl.NoticeServiceDao" />
+	<context:component-scan base-package="min.controller, min.resource">
+		<context:include-filter type="annotation"
+		expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
 
 
 	<!-- view resolver start -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
 	<!-- view resolver end -->
