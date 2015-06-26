@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+
+	<!-- annotation config & scan start -->
+	<context:annotation-config />
+		<context:component-scan base-package="min.controller">
+			<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		</context:component-scan>
+	<!-- annotation config & scan end -->
+
+
+	<bean id="noticeBoardService" class="min.service.impl.NoticeServiceImpl" />
+	<bean id="NoticeServiceDao" class="min.service.impl.NoticeServiceDao" />
+
+
+	<!-- view resolver start -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<!-- view resolver end -->
+</beans>
