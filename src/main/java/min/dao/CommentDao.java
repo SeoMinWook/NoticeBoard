@@ -8,7 +8,7 @@ import min.domain.Notice;
 public interface CommentDao {
 
 	//코멘트 목록 불러오기
-	public List<Comment> viewCommentList(Notice notice) throws Exception;
+	public List<Comment> selectCommentList(int noticeId) throws Exception;
 
 	//코멘트 등록하기
 	public void insertComment(Comment comment) throws Exception;
@@ -17,6 +17,6 @@ public interface CommentDao {
 	public void updateComment(Comment comment) throws Exception;
 
 	//코멘트 삭제하기
-	public void deleteComment(Comment comment) throws Exception;
+	public void deleteComment(int commentId) throws Exception;
 
 }

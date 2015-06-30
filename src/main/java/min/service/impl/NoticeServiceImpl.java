@@ -17,32 +17,26 @@ public class NoticeServiceImpl implements NoticeService {
 	private NoticeDao noticeDao;
 
 
-	//noticeList View
-	public List<Notice> noticeListView(NoticeSearchDto searchDto) throws Exception {
-		return noticeDao.noticeBoardList(searchDto);
+	public List<Notice> selectNoticeList(NoticeSearchDto searchDto) throws Exception {
+		return noticeDao.selectNoticeList(searchDto);
 	}
 
-	//noticeNewInsertForm
-	public void noticeNewInsertForm(Notice noticeDto) throws Exception { }
+	public void insertNoticeForm() throws Exception { }
 
-	//noticeNewInsert
-	public void noticeNewInsert(Notice noticeDto) throws Exception {
-		noticeDao.noticeNewInsert(noticeDto);
+	public void insertNotice(Notice noticeDto) throws Exception {
+		noticeDao.insertNotice(noticeDto);
 	}
 
-	//DetailView
-	public Notice noticeDetailView(Notice noticeDto) throws Exception {
-		return noticeDao.noticeDetailView(noticeDto);
+	public Notice selectDetailNotice(int noticeId) throws Exception {
+		return noticeDao.selectDetailNotice(noticeId);
 	}
 
-	//noticeEdit
-	public void noticeContentEdit(Notice noticeDto) throws Exception {
-		noticeDao.noticeContentEdit(noticeDto);
+	public void editNotice(Notice noticeDto) throws Exception {
+		noticeDao.editNotice(noticeDto);
 	}
 
-	//noticeDelete
-	public void noticeContentDelete(Notice noticeDto) throws Exception{
-		noticeDao.noticeContentDelete(noticeDto);
+	public void deleteNotice(Notice noticeDto) throws Exception{
+		noticeDao.deleteNotice(noticeDto);
 	}
 
 }

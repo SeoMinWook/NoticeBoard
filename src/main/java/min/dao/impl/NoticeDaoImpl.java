@@ -25,7 +25,7 @@ public class NoticeDaoImpl implements NoticeDao {
 	/* (non-Javadoc)
 	 * @see min.dao.INoticeDao#noticeBoardList(min.domain.NoticeSearchDto)
 	 */
-	public List<Notice> noticeBoardList(NoticeSearchDto searchDto) throws Exception {
+	public List<Notice> selectNoticeList(NoticeSearchDto searchDto) throws Exception {
 
 		StringBuffer sqlTo = new StringBuffer();
 
@@ -44,8 +44,7 @@ public class NoticeDaoImpl implements NoticeDao {
 		default:
 			break;
 		}
-
-		sqlTo.append("ORDER BY board_num");
+		sqlTo.append("ORDER BY board_num DESC");
 
 		Connection connection = this.ds.getConnection();
 		PreparedStatement pstmt = connection.prepareStatement(sqlTo.toString());
@@ -81,7 +80,7 @@ public class NoticeDaoImpl implements NoticeDao {
 	/* (non-Javadoc)
 	 * @see min.dao.INoticeDao#noticeNewInsert(min.domain.Notice)
 	 */
-	public void noticeNewInsert(Notice noticeDto) throws Exception {
+	public void insertNotice(Notice noticeDto) throws Exception {
 
 		String sql = "INSERT INTO notice(name, title, content, view) VALUES (?, ?, ?, 'Y')";
 
@@ -100,24 +99,26 @@ public class NoticeDaoImpl implements NoticeDao {
 	/* (non-Javadoc)
 	 * @see min.dao.INoticeDao#noticeDetailView(min.domain.Notice)
 	 */
-	public Notice noticeDetailView(Notice noticeDto) throws Exception {
+	public Notice selectDetailNotice(int noticeId) throws Exception {
 
 		String sql = "SELECT * FROM notice WHERE board_num = ?";
 
 		Connection connection = this.ds.getConnection();
 		PreparedStatement pstmt = connection.prepareStatement(sql);
-		pstmt.setInt(1, noticeDto.getNoticeId());
+		pstmt.setInt(1, noticeId);
 
 		ResultSet rs = pstmt.executeQuery();
 
 		if (rs.next()) {
 
-			noticeDto.setNoticeId(rs.getInt("board_num"));
-			noticeDto.setName(rs.getString("name"));
-			noticeDto.setTitle(rs.getString("title"));
-			noticeDto.setContent(rs.getString("content"));
+			Notice noticeResult = new Notice();
 
-			return noticeDto;
+			noticeResult.setNoticeId(rs.getInt("board_num"));
+			noticeResult.setName(rs.getString("name"));
+			noticeResult.setTitle(rs.getString("title"));
+			noticeResult.setContent(rs.getString("content"));
+
+			return noticeResult;
 		}
 		return null;
 	}
@@ -126,7 +127,7 @@ public class NoticeDaoImpl implements NoticeDao {
 	/* (non-Javadoc)
 	 * @see min.dao.INoticeDao#noticeContentEdit(min.domain.Notice)
 	 */
-	public void noticeContentEdit(Notice noticeDto) throws Exception {
+	public void editNotice(Notice noticeDto) throws Exception {
 
 		String sql = "UPDATE notice SET name = ? , title = ? , content = ? WHERE board_num = ? ";
 
@@ -145,7 +146,7 @@ public class NoticeDaoImpl implements NoticeDao {
 	/* (non-Javadoc)
 	 * @see min.dao.INoticeDao#noticeContentDelete(min.domain.Notice)
 	 */
-	public void noticeContentDelete(Notice noticeDto) throws Exception {
+	public void deleteNotice(Notice noticeDto) throws Exception {
 
 		String sql = "UPDATE notice SET view = 'N' WHERE board_num = ? ";
 
@@ -157,4 +158,6 @@ public class NoticeDaoImpl implements NoticeDao {
 		pstmt.executeUpdate();
 
 	}
+
+
 }

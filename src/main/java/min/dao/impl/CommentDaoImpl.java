@@ -15,21 +15,21 @@ import min.dao.CommentDao;
 import min.domain.Comment;
 import min.domain.Notice;
 
-@Repository
+//@Repository
 public class CommentDaoImpl implements CommentDao {
 
 	@Autowired
 	private DataSource ds;
 
 	//코멘트 목록 불러오기
-	public List<Comment> viewComment(Notice notice) throws Exception {
+	public List<Comment> selectCommentList(int noticeId) throws Exception {
 
 		String sql = "SELECT * FROM comment WHERE comment_view = 'Y' AND parent_notice_id = ?  ORDER BY comment_id ";
 
 		Connection connection = this.ds.getConnection();
 		PreparedStatement pstmt = connection.prepareStatement(sql);
 
-		pstmt.setInt(1, notice.getNoticeId());
+		pstmt.setInt(1, noticeId);
 
 		ResultSet rs = pstmt.executeQuery();
 
@@ -50,7 +50,7 @@ public class CommentDaoImpl implements CommentDao {
 	}
 
 	//코멘트 등록하기
-	public void insertComment(Comment comment, Notice notice) throws Exception {
+	public void insertComment(Comment comment) throws Exception {
 
 		String commentSql = "INSERT INTO comment(writer, comment_content, parent_notice_id, comment_view ) VALUES ( ?, ?, ?, 'Y' )  ";
 
@@ -59,39 +59,40 @@ public class CommentDaoImpl implements CommentDao {
 
 		commentPstmt.setString(1, comment.getWriter());
 		commentPstmt.setString(2, comment.getCommentContent());
-		commentPstmt.setInt(3, notice.getNoticeId());
+		commentPstmt.setInt(3, comment.getParentNoticeId());
 
 		commentPstmt.executeUpdate();
-
-		String noticeSql = "INSERT INTO notice(sub_comment_id) VALUES( ? )";
-
-		PreparedStatement noticePstmt = connection.prepareStatement(noticeSql);
-
-		notice.setSubCommentId(comment.getCommentId());
-
-		noticePstmt.executeUpdate();
 
 	}
 
 	//코멘트 수정하기
 	public void updateComment(Comment comment) throws Exception {
 
+		String commentSql = "UPDATE comment SET writer = ? , comment_content = ? WHERE comment_id = ? ";
+
+		Connection connection = ds.getConnection();
+		PreparedStatement pstmt = connection.prepareStatement(commentSql);
+
+		pstmt.setString(1, comment.getWriter());
+		pstmt.setString(2, comment.getCommentContent());
+		pstmt.setInt(3, comment.getCommentId());
+
+		pstmt.executeUpdate();
+
 	}
 
 	//코멘트 삭제하기
-	public void deleteComment(Comment comment) throws Exception {
+	public void deleteComment(int commentId) throws Exception {
+
+		String commentSql = "UPDATE comment SET comment_view = 'N' WHERE comment_id = ? ";
+
+		Connection connection = ds.getConnection();
+		PreparedStatement pstmt = connection.prepareStatement(commentSql);
+
+		pstmt.setInt(1, commentId);
+
+		pstmt.executeUpdate();
 
 	}
-
-	public List<Comment> viewCommentList(Notice notice) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void insertComment(Comment comment) throws Exception {
-		// TODO Auto-generated method stub
-
-	}
-
 
 }

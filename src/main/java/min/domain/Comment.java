@@ -1,7 +1,7 @@
 package min.domain;
 
 public class Comment {
-
+	
 	private int commentId;
 	private String commentContent;
 	private String writer;

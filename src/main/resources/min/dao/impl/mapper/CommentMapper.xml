@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+ "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="min.dao.impl.mapper.CommentMapper">
+
+	<resultMap type="min.domain.Comment" id="commentResult">
+		<id property="commentId" column="comment_id"/>
+		<result property="commentContent" column="comment_content"/>
+		<result property="writer" column="writer"/>
+		<result property="parentNoticeId" column="parent_notice_id"/>
+	</resultMap>
+
+	<select id="selectCommentList" resultMap="commentResult" parameterType="int" >
+		SELECT *
+			FROM
+				comment
+			WHERE
+				comment_view = 'Y'
+			AND
+				parent_notice_id = #{noticeId}
+			ORDER BY
+				comment_id
+	</select>
+
+	<insert id="insertComment" parameterType="min.domain.Comment" >
+		INSERT INTO
+			comment(writer,
+					comment_content,
+					parent_notice_id,
+					comment_view )
+			VALUES (#{writer},
+					#{commentContent},
+					#{parentNoticeId},
+					'Y' )
+	</insert>
+
+	<update id="updateComment" parameterType="min.domain.Comment">
+		UPDATE comment
+			SET
+				writer = #{writer},
+				comment_content = #{commentContent}
+			WHERE
+				comment_id = #{commentId}
+	</update>
+
+	<update id="deleteComment" parameterType="int">
+		UPDATE comment
+			SET
+				comment_view = 'N'
+			WHERE
+				comment_id = #{commentId}
+	</update>
+
+
+</mapper>

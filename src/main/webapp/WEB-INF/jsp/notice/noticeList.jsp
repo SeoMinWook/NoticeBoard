@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div align="center" style="width: 50%;">
-		<form id="search" action ="<%=request.getContextPath() %>/notice/List.do" method="get">
+		<form id="search" action ="<%=request.getContextPath() %>/notice/List" method="get">
 			<select name="searchNum">
 				<option value="1" >제목</option>
 				<option value="2" >작성자</option>
@@ -32,7 +32,7 @@
 					<tr>
 						<td align="left">${result.noticeId}</td>
 						<td align="left">${result.name}</td>
-						<td align="left"><a href="<%=request.getContextPath() %>/notice/${result.noticeId}.do">${result.title}</a></td>
+						<td align="left"><a href="<%=request.getContextPath() %>/notice/${result.noticeId}">${result.title}</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -40,7 +40,7 @@
 	</div>
 	<br/>
 	<div>
-		<a href="notice/newForm.do"><input type=button value="글쓰기"></a>
+		<a href="<%=request.getContextPath() %>/notice/insertForm"><input type=button value="글쓰기"></a>
 	</div>
 
 </body>

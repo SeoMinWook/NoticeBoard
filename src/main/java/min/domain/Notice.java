@@ -12,9 +12,6 @@ public class Notice {
 	private String title;
 	private String content;
 
-	//댓글 기능을 위하여 새로 추가(다시 삭제해야함. 삭제하면 주석 삭제 예정)
-	private int subCommentId;
-
 	public int getNoticeId() {
 		return noticeId;
 	}
@@ -47,13 +44,13 @@ public class Notice {
 		this.content = content;
 	}
 
-	public int getSubCommentId() {
-		return subCommentId;
+	@Override
+	public String toString() {
+		return "Notice [noticeId=" + noticeId + ", name=" + name + ", title="
+				+ title + ", content=" + content + "]";
 	}
 
-	public void setSubCommentId(int subCommentId) {
-		this.subCommentId = subCommentId;
-	}
+
 
 
 
