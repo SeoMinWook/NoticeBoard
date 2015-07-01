@@ -22,31 +22,36 @@ public class CommentDaoImpl implements CommentDao {
 	private DataSource ds;
 
 	//코멘트 목록 불러오기
-	public List<Comment> selectCommentList(int noticeId) throws Exception {
+	public List<Comment> selectCommentList(int noticeId) {
 
 		String sql = "SELECT * FROM comment WHERE comment_view = 'Y' AND parent_notice_id = ?  ORDER BY comment_id ";
 
-		Connection connection = this.ds.getConnection();
-		PreparedStatement pstmt = connection.prepareStatement(sql);
+		try {
+			Connection connection = this.ds.getConnection();
+			PreparedStatement pstmt = connection.prepareStatement(sql);
 
-		pstmt.setInt(1, noticeId);
+			pstmt.setInt(1, noticeId);
 
-		ResultSet rs = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery();
 
-		List<Comment> results = new ArrayList<Comment>();
-		while (rs.next()) {
+			List<Comment> results = new ArrayList<Comment>();
+			while (rs.next()) {
 
-			Comment commentDto = new Comment();
+				Comment commentDto = new Comment();
 
-			commentDto.setCommentId(rs.getInt("comment_id"));
-			commentDto.setWriter(rs.getString("writer"));
-			commentDto.setCommentContent(rs.getString("comment_content"));
-			commentDto.setParentNoticeId(rs.getInt("parent_notice_id"));
+				commentDto.setCommentId(rs.getInt("comment_id"));
+				commentDto.setWriter(rs.getString("writer"));
+				commentDto.setCommentContent(rs.getString("comment_content"));
+				commentDto.setParentNoticeId(rs.getInt("parent_notice_id"));
 
-			results.add(commentDto);
+				results.add(commentDto);
+			}
+
+			return results;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
-
-		return results;
 	}
 
 	//코멘트 등록하기

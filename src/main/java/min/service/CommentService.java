@@ -3,7 +3,6 @@ package min.service;
 import java.util.List;
 
 import min.domain.Comment;
-import min.domain.Notice;
 
 public interface CommentService {
 

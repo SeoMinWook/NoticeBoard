@@ -8,6 +8,7 @@ import min.domain.Comment;
 import min.domain.Notice;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,10 +19,18 @@ public class CommentDaoImplMybatisMapper implements CommentDao {
 	private CommentMapper commentMapper;
 
 	/*
+	public void setCommentMapper(CommentMapper commentMapper) {
+		this.commentMapper = commentMapper;
+	}
+	*/
+
+
+	/*
 	  public void setSqlSession(SqlSession sqlSession) {
 		    this.sqlSession = sqlSession;
 		  }
-	*/
+	 */
+
 
 	//코멘트 목록 불러오기
 	public List<Comment> selectCommentList(int noticeId) throws Exception {

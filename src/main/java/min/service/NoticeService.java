@@ -13,7 +13,7 @@ public interface NoticeService {
 
 	public void insertNotice(Notice noticeDto) throws Exception;
 
-	public Notice selectDetailNotice(int noticeId) throws Exception;
+	public Notice selectDetailNotice(int noticeId) throws Exception;//
 
 	public void editNotice(Notice noticeDto) throws Exception;
 

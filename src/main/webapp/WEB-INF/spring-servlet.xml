@@ -15,10 +15,8 @@
 		expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
-	<!-- view resolver start -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	<!-- view resolver end -->
 </beans>
