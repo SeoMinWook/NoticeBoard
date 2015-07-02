@@ -2,18 +2,23 @@ package min.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import min.domain.Comment;
 import min.domain.Notice;
 import min.domain.NoticeSearchDto;
 import min.service.CommentService;
 import min.service.NoticeService;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
 
 @Controller
 public class NoticeBoardController {
@@ -145,7 +150,10 @@ public class NoticeBoardController {
 
 	//댓글 수정하기
 	@RequestMapping(value = "notice/{parentNoticeId}/comment/{commentId}/update", method=RequestMethod.POST)
-	public String editComment(@PathVariable("commentId") int commentId, @PathVariable("parentNoticeId") int parentNoticeId, Comment comment) throws Exception{
+	public String editComment(	@PathVariable("commentId") int commentId,
+								@PathVariable("parentNoticeId") int parentNoticeId, Comment comment) throws Exception {
+
+		System.out.println("컨트롤러 진입 확인 및 전송값 확인  -  "+comment.toString());
 
 		noticeCommentService.updateComment(comment);
 
@@ -154,7 +162,8 @@ public class NoticeBoardController {
 
 	//댓글 삭제하기
 	@RequestMapping(value = "notice/{parentNoticeId}/comment/{commentId}/delete", method=RequestMethod.POST)
-	public String deleteComment(@PathVariable("parentNoticeId")int parentNoticeId, @PathVariable("commentId") int commentId) throws Exception {
+	public String deleteComment(@PathVariable("parentNoticeId")int parentNoticeId,
+								@PathVariable("commentId") int commentId) throws Exception {
 
 		noticeCommentService.deleteComment(commentId);
 
