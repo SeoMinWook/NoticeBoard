@@ -10,7 +10,12 @@
 
 <title>공지사항 상세화면</title>
 
+<!-- BootStrap에서 제공하는 CSS CDN -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<!-- BootStrap에서 제공하는 CSS Theme CDN -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 <!-- css -->
+
 </head>
 <body>
 	<div>
@@ -111,7 +116,12 @@
 		</form>
 	</div>
 </body>
+
+<!-- JQuery를 사용하기 위한 CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<!-- BootStrap에서 제공하는 자바스크립트 컴포넌트 CDN -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
 <script type="text/javascript">
 
 //전역변수는 되도록 쓰지 말자(싱글톤이 아니면)
