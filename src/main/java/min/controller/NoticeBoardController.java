@@ -44,9 +44,7 @@ public class NoticeBoardController {
 	//공지사항 등록 화면 이동
 	@RequestMapping(value = "notice/insertForm")
 	public String insertNoticeForm() throws Exception{
-			System.out.println("asdad");
 		return "/notice/noticeInsert";
-
 	}
 
 	//공지사항 등록하기
@@ -99,7 +97,7 @@ public class NoticeBoardController {
 		noticeDto.setNoticeId(noticeId);
 
 		noticeBoardService.editNotice(noticeDto);
-
+		
 		return "redirect:/notice/{noticeId}";
 	}
 
@@ -156,6 +154,10 @@ public class NoticeBoardController {
 		System.out.println("컨트롤러 진입 확인 및 전송값 확인  -  "+comment.toString());
 
 		noticeCommentService.updateComment(comment);
+		
+		//수정된 
+		noticeCommentService.selectCommentList(parentNoticeId);
+
 
 		return "redirect:/notice/" + parentNoticeId;
 	}

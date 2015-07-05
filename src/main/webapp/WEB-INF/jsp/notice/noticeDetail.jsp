@@ -20,99 +20,101 @@
 <body>
 	<div>
 		<form action="<%=request.getContextPath() %>/notice/${result.noticeId}/delete" id="noticeDetail" method="post">
-			<table width="50%" cellspacing="1" bgcolor="gray">
-				<tr bgcolor="white">
-					<td>작성자 이름</td>
+			<table class="table table-condensed">
+				<tr>
+					<td>작성자</td>
 					<td>
 						${result.name}
 					</td>
 					</tr>
-				<tr bgcolor="white">
+				<tr>
 					<td>제목</td>
 					<td>
 						${result.title}
 					</td>
 					</tr>
-				<tr bgcolor="white">
+				<tr>
 					<td>내용</td>
 					<td>
-						<textarea name="content" rows="5" cols="30" disabled="disabled">${result.content}</textarea>
+						<textarea name="content" class="form-control" rows="10" readonly >${result.content}</textarea>
 					</td>
 				</tr>
-				<tr bgcolor="white" >
+				<tr>
 					<td colspan="2" align="right" style="padding-top: 10px; padding-bottom: 10px; padding-right: 10px;"  >
-						<a href="<%=request.getContextPath() %>/notice/${result.noticeId}/updateForm"><input type="button" value="수정하기" ></a>
-						<input type="submit" value="삭제하기" >
-						<a href="<%=request.getContextPath() %>/notice/List"><input type="button" value="목록으로" ></a>
+						<a href="<%=request.getContextPath() %>/notice/${result.noticeId}/updateForm">
+							<input type="button" value="수정하기" class="btn btn-success" >
+						</a>
+						<input type="submit" value="삭제하기" class="btn btn-danger" >
+						<a href="<%=request.getContextPath() %>/notice/List">
+							<input type="button" value="목록으로" class="btn btn-primary" >
+						</a>
 					</td>
 				</tr>
 			</table>
 		</form>
 	</div>
 	<div>
-	<b2>공지사항에 대한 댓글입니다.</b2>
+	<h3>공지사항에 대한 댓글입니다.</h3>
 
-		<table width="50%">
-			<tr>
-				<th style="width: 10%; ">No</th>
-				<th style="width: 10%; ">작성자</th>
-				<th style="width: 80%; "colspan="3">코멘트 내용</th>
-			</tr>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th style="width: 10%; ">댓글 번호</th>
+					<th style="width: 10%; ">작성자</th>
+					<th style="width: 80%; "colspan="3">댓글 내용</th>
+				</tr>
+			</thead>
+			<tbody>
+			
 			<c:forEach var="commentResult" items="${commentList}" varStatus="status">
-
-			<tr id="comment_${status.count}">
-			<!-- 댓글 목록 -->
-				<td style="width: 10%; " >${commentResult.commentId}</td>
-				<td style="width: 10%; " class="commentWriter_${status.count}" >${commentResult.writer}</td>
-				<td style="width: 70%; " class="commentContent_${status.count}" >${commentResult.commentContent}</td>
-
-				<td align="right" style="width: 5%;" >
-					<input type="button" id="editBegin_${status.count}" value="수정하기" >
-				</td>
-				<td align="right"  style="width: 5%;" >
-					<input type="submit" id="deleteComment_${status.count}" value="삭제하기" >
-				</td>
-			</tr>
-
-			<tr id="editComment_${status.count}" style="display: none;" >
-			<!-- 댓글수정 폼 -->
-				<input type="hidden" id="noticeId_${status.count}" value="${commentResult.parentNoticeId}">
-				<td style="width: 10%; " id="commentId_${status.count}" >${commentResult.commentId}</td>
-
-				<td style="width: 10%; " ><input type="text" class="editWriter_${status.count}" ></td>
-				<td style="width: 70%; " ><input type="text" class="editContent_${status.count}" ></td>
-
-				<td align="right" id="${commentResult.commentId}" style="width: 5%;" >
-					<input type="button" id="editComplete_${status.count}" value="수정완료">
-				</td>
-				<td align="right"  style="width: 5%;" >
-					<input type="button" id="editCancel_${status.count}" value="수정취소" >
-				</td>
-			</tr>
-
+				<tr id="comment_${status.count}">
+				<!-- 댓글 목록 -->
+					<td style="width: 10%; " >${commentResult.commentId}</td>
+					<td style="width: 10%; " id="commentWriter_${status.count}" >${commentResult.writer}</td>
+					<td style="width: 70%; " id="commentContent_${status.count}" >${commentResult.commentContent}</td>
+	
+					<td align="right" style="width: 5%;" >
+						<input type="button" id="editBegin_${status.count}" value="수정하기" class="btn btn-info" >
+					</td>
+					<td align="right"  style="width: 5%;" >
+						<input type="submit" id="deleteComment_${status.count}" value="삭제하기" class="btn btn-danger" >
+					</td>
+				</tr>
+	
+			
+				<tr id="editComment_${status.count}" style="display: none;" >
+				<!-- 댓글수정 폼 -->
+					<input type="hidden" id="noticeId_${status.count}" value="${commentResult.parentNoticeId}">
+					<td style="width: 10%; " id="commentId_${status.count}" >${commentResult.commentId}</td>
+	
+					<td style="width: 10%; " ><input type="text" id="editWriter_${status.count}" ></td>
+					<td style="width: 70%; " ><input type="text" id="editContent_${status.count}" ></td>
+	
+					<td align="right" id="${commentResult.commentId}" style="width: 5%;" >
+						<input type="button" id="editComplete_${status.count}" value="수정완료" class="btn btn-info">
+					</td>
+					<td align="right"  style="width: 5%;" >
+						<input type="button" id="editCancel_${status.count}" value="수정취소" class="btn btn-warning" >
+					</td>
+				</tr>
 			</c:forEach>
+			</tbody>
 		</table>
 	</div>
 	<div>
-		<form action="<%=request.getContextPath()%>/notice/${result.noticeId}/comment/insert" method="post">
+		<form action="<%=request.getContextPath()%>/notice/${result.noticeId}/comment/insert" method="post" class="form-inline">
 
 			<%-- controller에서 PathVariable을 사용하기 위해 값 설정
 			<input type="hidden" name="noticeId" value="${result.noticeId}">
 			--%>
 			<input type="hidden" name="parentNoticeId" value="${result.noticeId}">
-			<table>
-				<tr>
-					<td>작성자&nbsp;<input type="text" style="height: 14px; " name="writer" ></td>
-				</tr>
-				<tr>
-					<td>코멘트를 남겨주세요.</td>
-				</tr>
-				<tr>
-					<td><input type="text" name="commentContent" style="width: 550px; "></td>
-				</tr>
-			</table>
-			<br/>
-			<input type="submit" value="댓글 작성하기" >
+				<div class="form-group">
+					<label for="writer_">작성자</label><input type="text" class="form-control" id="writer_" name="writer" >
+				</div>
+				<div class="form-group">
+					<label for="commentContent">댓글을 남겨주세요!</label><input type="text" class="form-control" id="commentContent" name="commentContent" >
+				</div>
+				<input type="submit" class="btn btn-default" value="댓글 작성하기" />
 		</form>
 	</div>
 </body>
@@ -169,7 +171,7 @@ $(document).ready(function(){
 		//각 버튼에 대한 ID값을 설정하기 위한 ID NumberCheck
 		var idChk = $(this).attr("id").split('_');
 
-		//수정된 작성자와 코멘트 내용
+		//수정된 작성자와 코멘트 내용  
 		var writer = $("input[id='editWriter_"+idChk[1]+"']").val();
 		var content = $("input[id='editContent_"+idChk[1]+"']").val();
 
@@ -187,11 +189,13 @@ $(document).ready(function(){
 			type:"post" ,
 			data: params,
 			success:function(data){
+				
+				//수정된 내용에 대한 값을 재설정 할때에는 request에 대한 response된 값을 가지고 재설정 해주어야 한다.
 				$("#comment_"+idChk[1]).show();
 				$("#editComment_"+idChk[1]).hide();
-				$(".commentWriter_"+idChk[1]).html(data.writer);
-				$(".commentContent_"+idChk[1]).html(data.commentContent);
-			},
+				$("#commentWriter_"+idChk[1]).text(data.writer);
+				$("#commentContent_"+idChk[1]).text(data.commentContent);
+			}, 
 			error:function(request, status){
 				alert("오류입니다  -  "+request.status);
 			}
